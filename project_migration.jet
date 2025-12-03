@@ -1,0 +1,47 @@
+PROJECT: Node.js Classifieds System
+REPO: https://github.com/josejosemarcosribeiro-alt/lists.git
+TASK: Migrate video upload from AWS S3 to Cloudinary
+
+FILES TO MODIFY:
+1. routes/list.js
+   - Replace AWS S3 config with Cloudinary config
+   - Use multer-storage-cloudinary for uploads
+   - Save uploaded video URL in MongoDB field 'videoPath'
+   - Keep add, edit, delete, get item routes functional
+   - Preserve authentication and text validation
+
+2. views/add_list.pug
+   - Keep enctype="multipart/form-data"
+   - File input for video (optional)
+   - Optional: add preview after upload via Cloudinary URL
+   - Preserve text fields (title, body)
+
+3. views/edit_list.pug
+   - Replace local video src with Cloudinary URL (src=item.videoPath)
+   - File input to replace video (optional)
+   - Preserve title and body fields
+   - Form still uses enctype="multipart/form-data"
+
+PACKAGES TO INSTALL:
+- multer (already installed)
+- cloudinary
+- multer-storage-cloudinary
+
+ENV VARIABLES (.env):
+- CLOUDINARY_CLOUD_NAME
+- CLOUDINARY_API_KEY
+- CLOUDINARY_API_SECRET
+
+NOTES:
+- Backend handles video upload to Cloudinary
+- Frontend uses URL from MongoDB to display video
+- Existing authentication and validation remain
+- Delete and get item routes unchanged
+- System ready for local testing then deploy
+
+NEXT STEP:
+- Integrate push notification system (APN / Firebase)
+- Configure server to send notifications when new posts/videos are added
+- Obtain API keys / credentials from the push notification service
+- Update backend routes to trigger notifications on new content
+- Ensure Frontend is ready to receive/display notifications
