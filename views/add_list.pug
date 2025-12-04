@@ -1,0 +1,21 @@
+extends layout
+
+block content
+    br
+    h3 Add Aula
+
+    form(method="POST", action="/list/add", enctype="multipart/form-data")
+        #form-group
+            label Title:
+            input.form-control(name="title", type="text", required)
+
+        #form-group
+            label Upload Aula (optional):
+            input.form-control(type="file", name="video", accept="video/*")
+
+        #form-group
+            label Description (optional):
+            textarea.form-control(name="body", rows="3", placeholder="Add a short description about your aula")
+
+        br
+        input.btn.btn-primary.float-right(type="submit", value="Submit")
