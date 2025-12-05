@@ -1,0 +1,42 @@
+extends layout
+
+block content
+    br
+    h3 Edit Aula
+
+    form(method="POST", action="/list/edit/" + item._id, enctype="multipart/form-data")
+        #form-group
+            label Title:
+            input.form-control(name="title", type="text", value=item.title, required)
+
+        #form-group
+            label Current Aula:
+            if item.videoPath
+                video(width="320", height="240", controls)
+                    source(src=item.videoPath, type="video/mp4")
+                br
+                //- Botão para deletar vídeo
+                form(method="POST", action="/list/delete-video/" + item._id)
+                    input.btn.btn-danger(type="submit", value="Delete Video")
+            else
+                p No aula uploaded yet.
+
+        #form-group
+            label Upload New Aula (optional):
+            input.form-control(type="file", name="video", accept="video/*")
+
+        #form-group
+            label Description (optional):
+            textarea.form-control(name="body", rows="10")= item.body
+
+        br
+        input.btn.btn-primary.float-right(type="submit", value="Save")
+
+    //- Mensagens de erro ou sucesso
+    if errors
+        ul.text-danger
+            each err in errors
+                li= err.msg
+
+    if success
+        p.text-success= success
