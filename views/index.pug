@@ -1,0 +1,8 @@
+extends layout
+
+block content
+    .d-flex.justify-content-center
+        ul.list-group(style="width: 50%;")
+            each list_item in list_items.reverse()  // Posts mais novos primeiro
+                li.list-group-item.text-center
+                    a(href="/list/item/" + list_item.id)= list_item.title
