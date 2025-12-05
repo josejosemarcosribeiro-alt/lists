@@ -1,0 +1,21 @@
+/** 
+ * Update: Added video display support; shows uploaded video if exists. 
+ */
+
+extends layout
+
+block content
+    h2= item.title
+    strong Posted by #{author}
+    br
+
+    //- Video player if video exists
+    if item.videoPath
+        video(width="640", height="360", controls)
+            source(src=item.videoPath, type="video/mp4")
+            | Your browser does not support HTML5 video.
+        br
+
+    //- Always show the description/body
+    if item.body
+        p= item.body
