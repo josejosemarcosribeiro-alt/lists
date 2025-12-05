@@ -1,0 +1,16 @@
+extends layout
+
+block content
+    .d-flex.justify-content-center
+        ul.list-group(style="width: 50%;")
+            //- Posts mais novos primeiro
+            each list_item in list_items.reverse()
+                li.list-group-item
+                    h4.text-center
+                        a(href="/list/item/" + list_item._id)= list_item.title
+                    if list_item.videoPath
+                        video(width="100%", height="auto", controls, style="margin-top:10px;")
+                            source(src=list_item.videoPath, type="video/mp4")
+                            | Your browser does not support HTML5 video.
+                    if list_item.body
+                        p(style="margin-top:10px;")= list_item.body.length > 100 ? list_item.body.substring(0, 100) + '...' : list_item.body
