@@ -1,0 +1,85 @@
+extends layout
+
+block content
+    br
+    h3 Edit Aula
+
+    form(method="POST", action="/list/edit/" + item._id, enctype="multipart/form-data")
+        #form-group
+            label Title:
+            input.form-control(name="title", type="text", value=item.title, required)
+
+        #form-group
+            label Current Aula:
+            if item.videoPath
+                video(width="320", height="240", controls)
+                    source(src=item.videoPath, type="video/mp4")
+                    | Your browser does not support HTML5 video.
+                br
+                button.btn.btn-danger(type="button", id="deleteVideoButton") Delete Video
+            else
+                p No aula uploaded yet.
+
+        #form-group
+            label Upload New Aula (optional):
+            input(type="hidden", name="video", id="videoInput")
+            button.btn.btn-secondary(type="button", id="uploadButton") Upload New Video
+
+        #form-group
+            label Description (optional):
+            textarea.form-control(name="body", rows="10")= item.body
+
+        br
+        input.btn.btn-primary.float-right(type="submit", value="Save")
+
+    if errors
+        ul.text-danger
+            each err in errors
+                li= err.msg
+    if success
+        p.text-success= success
+
+    //- Cloudinary Upload Widget
+    script(src="https://upload-widget.cloudinary.com/latest/global/all.js")
+    script.
+        const myWidget = cloudinary.createUploadWidget({
+            cloudName: '!{cloudName}',
+            uploadPreset: '!{uploadPreset}',
+            multiple: false,
+            resourceType: 'video',
+            clientAllowedFormats: ['mp4', 'mov', 'avi']
+        }, (error, result) => {
+            if (!error && result && result.event === "success") {
+                console.log('Upload realizado:', result.info.secure_url);
+                const videoInput = document.getElementById('videoInput');
+                videoInput.value = result.info.secure_url;
+                document.getElementById('deleteVideoButton').style.display = 'inline-block';
+            }
+        });
+
+        document.getElementById("uploadButton").addEventListener("click", () => {
+            myWidget.open();
+        });
+
+        // Delete video logic
+        const deleteBtn = document.getElementById('deleteVideoButton');
+        if(deleteBtn){
+            deleteBtn.addEventListener("click", async () => {
+                const videoInput = document.getElementById('videoInput');
+                if(!videoInput.value) return;
+                try {
+                    const response = await fetch('/delete-video/' + item._id, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ videoUrl: videoInput.value })
+                    });
+                    if(response.ok){
+                        videoInput.value = '';
+                        deleteBtn.style.display = 'none';
+                        console.log('Video deleted from Cloudinary and backend');
+                    }
+                } catch(err){
+                    console.error('Error deleting video:', err);
+                }
+            });
+        }
