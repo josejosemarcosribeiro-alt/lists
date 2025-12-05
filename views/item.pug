@@ -1,0 +1,16 @@
+extends layout
+
+block content
+    h2= item.title
+    strong Posted by #{author}
+    br
+
+    if item.videoPath
+        video(width="640", height="360", controls)
+            source(src=item.videoPath, type="video/mp4")
+            | Your browser does not support HTML5 video.
+        br
+        hr
+
+    if item.body
+        p= item.body
