@@ -1,3 +1,61 @@
+criamos uma rede aocial  a partir deste cosigo watmoa bem eboluidoa 
+doctype html
+html
+    head
+        meta(charset='utf-8')
+        meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
+        title Mcity Chennai
+        link(href="/bower_components/bootstrap/dist/css/bootstrap.css", rel="stylesheet")
+        link(href="/css/style.css", rel="stylesheet")
+
+        //- Google Analytics
+        script(async src="https://www.googletagmanager.com/gtag/js?id=G-MHWQFFW085")
+        script.
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-MHWQFFW085');
+        //- End Google Analytics
+
+    body
+        div.container(style="max-width:425px")
+            nav.navbar.navbar-dark.bg-dark.fixed-top
+                a.navbar-brand.py-0(href='/') Lists / classifieds
+                ul.navbar-nav.ml-auto
+                    if user
+                        li.nav-item
+                            a.btn.btn-outline-light(href='/list/add')
+                                ion-icon(name='md-add')
+                    else
+                        li.nav-item
+                            a.btn.btn-outline-light(href='/users/login')
+                                ion-icon(name='log-in')
+        div.container.main-c
+            br
+            !=messages('message',locals)
+            if errors
+                each err in errors
+                    div(class="alert alert-danger") #{err.msg}
+
+        block content
+
+        footer.navbar.navbar-nav.fixed-bottom
+            hr
+            div.container
+                div.btn-group.btn-group-lg.text-center(role="group")
+                    a.btn.btn-dark(href='#',onClick="history.back();")
+                        ion-icon(name='arrow-back')
+                    if user && item
+                        if user.id == item.author
+                            a.btn.btn-danger.delete-item(href='#',data-id=item._id)
+                                ion-icon(name='trash')
+                            a.btn.btn-dark(href='/list/item/edit/'+item._id)
+                                ion-icon(name='create')
+
+        script(src="/bower_components/jquery/dist/jquery.js")
+        script(src="/bower_components/bootstrap/dist/js/bootstrap.js")
+        script(src='https://unpkg.com/ionicons@4.5.5/dist/ionicons.js')
+        script(src="/js/main.js")
 # List - Classifieds
 
 A simple classified list application using nodejs ,expressjs and mongodb
