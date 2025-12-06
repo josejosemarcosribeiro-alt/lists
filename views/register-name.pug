@@ -1,0 +1,32 @@
+extends layout
+
+block content
+  h2 Cadastro - Etapa 3: Nome e Usuário
+
+  //- Mensagens de erro ou sucesso
+  if flash.danger
+    each msg in flash.danger
+      p(style="color:red")= msg
+  if flash.success
+    each msg in flash.success
+      p(style="color:green")= msg
+
+  form(method="POST", action="/register/step3")
+    .form-group
+      label(for="nomeCompleto") Nome Completo:
+      input.form-control(
+        type="text",
+        name="nomeCompleto",
+        required,
+        placeholder="Digite seu nome completo"
+      )
+    .form-group
+      label(for="username") Nome de Usuário:
+      input.form-control(
+        type="text",
+        name="username",
+        required,
+        placeholder="Escolha seu username"
+      )
+    br
+    button.btn.btn-primary(type="submit") Concluir Cadastro
