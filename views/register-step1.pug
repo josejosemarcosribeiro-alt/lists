@@ -1,0 +1,25 @@
+extends layout
+
+block content
+  h2 Cadastro - Etapa 2: Senha
+
+  //- Mensagens de erro ou sucesso
+  if flash.danger
+    each msg in flash.danger
+      p(style="color:red")= msg
+  if flash.success
+    each msg in flash.success
+      p(style="color:green")= msg
+
+  form(method="POST", action="/register/step2")
+    .form-group
+      label(for="password") Senha (mínimo 6 caracteres):
+      input.form-control(
+        type="password",
+        name="password",
+        required,
+        minlength="6",
+        placeholder="Escolha sua senha"
+      )
+    br
+    button.btn.btn-primary(type="submit") Próximo
