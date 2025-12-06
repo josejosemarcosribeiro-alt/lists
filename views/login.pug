@@ -1,0 +1,38 @@
+extends layout
+
+block content
+  h1 Login
+
+  //- Flash messages seguras
+  - var flashMessages = flash || {};
+  if flashMessages.danger
+    each msg in flashMessages.danger
+      div(class="alert alert-danger") #{msg}
+  if flashMessages.success
+    each msg in flashMessages.success
+      div(class="alert alert-success") #{msg}
+
+  form(method="POST", action="/users/login")
+    .form-group
+      label(for="username") Username:
+      input.form-control(
+        name="username",
+        type="text",
+        required,
+        placeholder="Digite seu username",
+        value=username || ''
+      )
+    .form-group
+      label(for="password") Password:
+      input.form-control(
+        name="password",
+        type="password",
+        required,
+        placeholder="Digite sua senha"
+      )
+    br
+    div.text-center
+      input.btn.btn-primary(type="submit", value="Submit")
+      br
+      br
+      a(href='/users/register') New? Signup here
