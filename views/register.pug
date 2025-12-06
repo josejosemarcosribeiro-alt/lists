@@ -1,0 +1,25 @@
+extends layout
+
+block content
+  h2 Cadastro - Etapa 1: Email
+
+  //- Mensagens de erro ou sucesso
+  if flash.danger
+    each msg in flash.danger
+      p(style="color:red")= msg
+  if flash.success
+    each msg in flash.success
+      p(style="color:green")= msg
+
+  form(method="POST", action="/register")
+    .form-group
+      label(for="email") Email:
+      input.form-control(
+        type="email",
+        name="email",
+        required,
+        placeholder="Digite seu email",
+        value=email
+      )
+    br
+    button.btn.btn-primary(type="submit") Próximo
